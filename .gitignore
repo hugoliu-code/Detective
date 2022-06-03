@@ -82,3 +82,6 @@ fmod_editor.log
 /Assets/FMODStudioCache.meta
 
 
+Detective/Assets/Plugins/FMOD/Cache/Editor/FMODStudioCache.asset
+Detective/Assets/Plugins/FMOD/Resources/FMODStudioSettings.asset
+Detective/fmod_editor.log
