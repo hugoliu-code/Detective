@@ -15,7 +15,7 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/detective_FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637898684497321471
+  lastModified: 637898696973832281
   FileSizes:
   - Name: Desktop
     Value: 800
@@ -70,7 +70,7 @@ MonoBehaviour:
   - {fileID: 7135137404169841031}
   StringsBanks:
   - {fileID: -8635186464457645923}
-  cacheTime: 637898684497321471
+  cacheTime: 637898696973832281
   cacheVersion: 131591
 --- !u!114 &4346341257525334040
 MonoBehaviour:
@@ -92,13 +92,13 @@ MonoBehaviour:
     Data4: 46231259
   Banks:
   - {fileID: 7135137404169841031}
-  IsStream: 1
+  IsStream: 0
   Is3D: 1
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
-  Length: 32089
+  Length: 0
 --- !u!114 &7135137404169841031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,8 +114,8 @@ MonoBehaviour:
   Path: ../../../FMOD Studio/detective_FMOD/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637898684497311474
+  lastModified: 637898696973822235
   FileSizes:
   - Name: Desktop
-    Value: 284960
+    Value: 83552
   Exists: 1
