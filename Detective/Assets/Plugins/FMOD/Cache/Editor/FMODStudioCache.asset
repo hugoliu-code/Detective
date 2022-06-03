@@ -1,26 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5901682144909507671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
-  m_Name: bank:/Master.bank
-  m_EditorClassIdentifier: 
-  Path: ../../../FMOD Studio/detective/Build/Desktop/Master.bank
-  Name: Master
-  StudioPath: bank:/Master
-  lastModified: 637898624449352481
-  FileSizes:
-  - Name: Desktop
-    Value: 203552
-  Exists: 1
---- !u!114 &-949355006935313313
+--- !u!114 &-8635186464457645923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -32,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
   m_Name: bank:/Master.strings.bank
   m_EditorClassIdentifier: 
-  Path: ../../../FMOD Studio/detective/Build/Desktop/Master.strings.bank
+  Path: ../../../FMOD Studio/detective_FMOD/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637898624449362431
+  lastModified: 637898680494171599
   FileSizes:
   - Name: Desktop
     Value: 754
@@ -53,16 +33,16 @@ MonoBehaviour:
   m_Name: FMODStudioCache
   m_EditorClassIdentifier: 
   EditorBanks:
-  - {fileID: -949355006935313313}
-  - {fileID: -5901682144909507671}
+  - {fileID: -8635186464457645923}
+  - {fileID: 7135137404169841031}
   EditorEvents:
   - {fileID: 4346341257525334040}
   EditorParameters: []
   MasterBanks:
-  - {fileID: -5901682144909507671}
+  - {fileID: 7135137404169841031}
   StringsBanks:
-  - {fileID: -949355006935313313}
-  cacheTime: 637898624449362431
+  - {fileID: -8635186464457645923}
+  cacheTime: 637898680494171599
   cacheVersion: 131591
 --- !u!114 &4346341257525334040
 MonoBehaviour:
@@ -83,7 +63,7 @@ MonoBehaviour:
     Data3: -1652367708
     Data4: 46231259
   Banks:
-  - {fileID: -5901682144909507671}
+  - {fileID: 7135137404169841031}
   IsStream: 1
   Is3D: 1
   IsOneShot: 1
@@ -91,3 +71,23 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 20
   Length: 32089
+--- !u!114 &7135137404169841031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c18180ecb35941f4682ae60107b85b7c, type: 3}
+  m_Name: bank:/Master.bank
+  m_EditorClassIdentifier: 
+  Path: ../../../FMOD Studio/detective_FMOD/Build/Desktop/Master.bank
+  Name: Master
+  StudioPath: bank:/Master
+  lastModified: 637898680494161605
+  FileSizes:
+  - Name: Desktop
+    Value: 203808
+  Exists: 1
