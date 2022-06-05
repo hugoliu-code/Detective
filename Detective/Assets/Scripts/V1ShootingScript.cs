@@ -14,33 +14,67 @@ public class V1ShootingScript: MonoBehaviour
     [SerializeField] float thickness;
     [SerializeField] GameObject secondShot;
     [SerializeField] float secondTracerTime;
+    [Header("Indicators")]
+    [SerializeField] Transform gunTipIndicator;
+    [Header("Variables")]
+    [SerializeField] float normalSpread;
+    [SerializeField] float aimSpread;
+    private float currentSpread;
+
     void Start()
     {
+        //Layers the bullet raycast will hit
         shootLayers = enemy | floor;
     }
 
 
     void Update()
     {
+        SpreadUpdate();
+        Shoot();
+    }
+    void SpreadUpdate()
+    {
+        //Update Spread according to various variables
+        currentSpread = normalSpread;
+    }
+    void Shoot()
+    {
+        /* When the Mouse is clicked (TO BE CHANGED)
+         * Get the Mouse Position and rotate it with a random spread
+         * Then Draw a raycast to simulate shooting
+         * Then Call coroutine to draw the tracer
+         */
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldPosMouse.z = 0;
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, worldPosMouse - transform.position, 100, shootLayers);
-            if (hit && hit.collider.gameObject.CompareTag("Enemy"))
+
+
+            //Creating New endpoint with spread
+            float spread = Random.Range(-currentSpread / 2, currentSpread / 2);
+            Vector3 worldPosMouseWithSpread = worldPosMouse - gunTipIndicator.position; //the relative vector from P2 to P1.
+            worldPosMouseWithSpread = Quaternion.Euler(0,0,spread) * worldPosMouseWithSpread; //rotatate
+            worldPosMouseWithSpread = gunTipIndicator.position + worldPosMouseWithSpread; //bring back to world space
+
+            //The Raycast
+            RaycastHit2D hit = Physics2D.Raycast(gunTipIndicator.position, worldPosMouseWithSpread - gunTipIndicator.position, 100, shootLayers);
+            if (hit && hit.collider.gameObject.CompareTag("Enemy")) //When raycast hits an enemy
                 Destroy(hit.collider.gameObject);
 
 
-
-            StartCoroutine(Tracer(transform.position,
-                180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouse.y - transform.position.y, worldPosMouse.x - transform.position.x),
-            10f));
+            //Tracers
+            StartCoroutine(Tracer(gunTipIndicator.position,
+                180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouseWithSpread.y - gunTipIndicator.position.y, worldPosMouseWithSpread.x - gunTipIndicator.position.x),
+            15f));
             //Debug.DrawRay(transform.position, worldPosition - transform.position);
         }
     }
 
     IEnumerator Tracer(Vector3 startPos, float angle, float distance)
     {
+        /* Using proper input, draw 2 prefabs one after the other to represent tracer lines
+         */
         GameObject tempMainShot = Instantiate(mainShot);
         tempMainShot.transform.position = startPos;
         tempMainShot.transform.rotation = Quaternion.Euler(0, 0, angle);

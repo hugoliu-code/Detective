@@ -64,6 +64,7 @@ public class V1PlayerController : MonoBehaviour
     }
     void ShootingLogic()
     {
+        //Change states based on input
         if (Input.GetMouseButton(1))
         {
             isAiming = true;
@@ -80,7 +81,7 @@ public class V1PlayerController : MonoBehaviour
     }
     void Running()
     {
-       
+       //With Acceleration
         if (Input.GetKey(KeyCode.A))
         {
             moveDirection = -1;
