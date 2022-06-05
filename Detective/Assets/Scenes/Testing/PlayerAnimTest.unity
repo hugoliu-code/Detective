@@ -215,6 +215,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shoulderIndicator: {fileID: 1958231550}
+  backShoulderIndicator: {fileID: 1713634512}
   angle: 0
 --- !u!212 &442251734
 SpriteRenderer:
@@ -954,7 +955,7 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 69ce8388f6785dd4c8c39915efece2f4, type: 2}
-    m_AmplitudeGain: 1
+    m_AmplitudeGain: 2
     m_FrequencyGain: 1
     m_RepeatMode: 0
     m_Randomize: 1
@@ -972,7 +973,7 @@ MonoBehaviour:
         m_PostInfinity: 2
         m_RotationOrder: 4
       m_AttackTime: 0
-      m_SustainTime: 0.3
+      m_SustainTime: 0.03
       m_DecayTime: 0.7
       m_ScaleWithImpact: 1
       m_HoldForever: 0
@@ -1131,13 +1132,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   mainShot: {fileID: 5479927666675850983, guid: 9c26ff5962e8ee54d854c3e3fa7c72a9, type: 3}
-  firstTracerTime: 0.01
+  firstTracerTime: 0.02
   thickness: 0.04
   secondShot: {fileID: 1224326536691281757, guid: a59fbbf9d13fe18468275eda0a348146, type: 3}
-  secondTracerTime: 0.01
+  secondTracerTime: 0.02
   gunTipIndicator: {fileID: 1272430423}
   normalSpread: 40
-  aimSpread: 0
+  aimSpread: 5
   shootDelay: 0.5
 --- !u!1 &1958231549
 GameObject:

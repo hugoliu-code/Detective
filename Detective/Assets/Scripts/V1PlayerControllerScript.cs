@@ -13,12 +13,12 @@ public class V1PlayerControllerScript : MonoBehaviour
     [SerializeField] float initialMoveSpeed = 3;
     [SerializeField] float currentMoveSpeed = 3;
     [SerializeField] float accelerationSpeed = 1;
-    [SerializeField] int moveDirection = -1;
+    public int moveDirection = -1;
     [SerializeField] float walkAnimationLimit = 4;
     [SerializeField] float aimWalkSpeed;
     [Header("Conditions")]
-    [SerializeField] bool isAiming;
-    
+    public bool isAiming;
+    //[SerializeField] bool isFacingRight;
 
 
 

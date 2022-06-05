@@ -41,7 +41,10 @@ public class V1ShootingScript: MonoBehaviour
     void SpreadUpdate()
     {
         //Update Spread according to various variables
-        currentSpread = normalSpread;
+        if (gm.player.isAiming)
+            currentSpread = aimSpread;
+        else
+            currentSpread = normalSpread;
     }
     void Shoot()
     {

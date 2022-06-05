@@ -6,15 +6,18 @@ public class V1ArmController : MonoBehaviour
 {
     //Shoulder Indicator is the empty gameObject that references where the shoulder on the player sprite is
     [SerializeField] Transform shoulderIndicator;
+    [SerializeField] Transform backShoulderIndicator;
     //Used to visualize the angle in the editor
     [SerializeField] float angle;
 
+    private V1GameManager gm;
     private Animator anim;
     private Camera cam;
     private void Start()
     {
         cam = Camera.main;
         anim = GetComponent<Animator>();
+        gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
     }
     void Update()
     {
@@ -33,7 +36,14 @@ public class V1ArmController : MonoBehaviour
     void MoveShoulder()
     {
         //Moves this object to the correct shoulder location
-        transform.position = shoulderIndicator.transform.position;
+        if (gm.player.transform.localScale.x == 1)
+        {
+            transform.position = shoulderIndicator.transform.position;
+        }
+        else if(gm.player.transform.localScale.x == -1)
+        {
+            transform.position = backShoulderIndicator.transform.position;
+        }
     }
 
 }
