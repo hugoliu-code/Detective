@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1PlayerController : MonoBehaviour
+public class V1PlayerControllerScript : MonoBehaviour
 {
     //Private
     private State currentState = State.idle;

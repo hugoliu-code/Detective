@@ -7,6 +7,8 @@ public class V1ShootingScript: MonoBehaviour
     private LayerMask shootLayers;
     public LayerMask enemy;
     public LayerMask floor;
+    private V1GameManager gm;
+
 
     [Header("Tracers")]
     [SerializeField] GameObject mainShot;
@@ -19,12 +21,15 @@ public class V1ShootingScript: MonoBehaviour
     [Header("Variables")]
     [SerializeField] float normalSpread;
     [SerializeField] float aimSpread;
+    [SerializeField] float shootDelay;
     private float currentSpread;
+    private float lastShotTime = 0;
 
     void Start()
     {
         //Layers the bullet raycast will hit
         shootLayers = enemy | floor;
+        gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
     }
 
 
@@ -45,11 +50,16 @@ public class V1ShootingScript: MonoBehaviour
          * Then Draw a raycast to simulate shooting
          * Then Call coroutine to draw the tracer
          */
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldPosMouse.z = 0;
 
+            //IF not enough time has passed, return
+            if(Time.time < lastShotTime + shootDelay)
+            {
+                return;
+            }
 
             //Creating New endpoint with spread
             float spread = Random.Range(-currentSpread / 2, currentSpread / 2);
@@ -67,7 +77,12 @@ public class V1ShootingScript: MonoBehaviour
             StartCoroutine(Tracer(gunTipIndicator.position,
                 180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouseWithSpread.y - gunTipIndicator.position.y, worldPosMouseWithSpread.x - gunTipIndicator.position.x),
             15f));
-            //Debug.DrawRay(transform.position, worldPosition - transform.position);
+
+            //Screenshake
+            gm.screenShake.SmallShake();
+
+            //New Last Shot Time
+            lastShotTime = Time.time;
         }
     }
 
