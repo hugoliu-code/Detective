@@ -5,11 +5,11 @@ using UnityEngine;
 public class V1GameManager : MonoBehaviour
 {
     public ScreenShakeScript screenShake;
-    public V1PlayerControllerScript player;
+    public V2PlayerControllerScript player;
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<V1PlayerControllerScript>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<V2PlayerControllerScript>();
         screenShake = GameObject.FindObjectOfType<ScreenShakeScript>();
     }
 }

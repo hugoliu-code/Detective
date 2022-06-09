@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class V1PlayerControllerScript : MonoBehaviour
+public class V2PlayerControllerScript : MonoBehaviour
 {
     //Private
     private State currentState = State.idle;
     private Rigidbody2D rb;
     private Animator anim;
     [Header("Movement")]
-    [SerializeField] float maxMoveSpeed = 5;
-    [SerializeField] float initialMoveSpeed = 3;
+    [SerializeField] float maxMoveSpeed = 9;
+    [SerializeField] float initialMoveSpeed = 5;
     [SerializeField] float currentMoveSpeed = 3;
-    [SerializeField] float accelerationSpeed = 1;
+    [SerializeField] float accelerationSpeed = 2;
+    [SerializeField] float reverseMoveSpeed = 4;
     public int moveDirection = -1; //Movement of Playerbody
     public int mouseDirection = -1; //Position of mouse relative to player
     [SerializeField] float walkAnimationLimit = 4;
@@ -34,7 +35,6 @@ public class V1PlayerControllerScript : MonoBehaviour
     {
         ScaleLogic(); //Changing the LocalScale accordingly based on mouse position
         HorizontalMovement();
-        ShootingLogic();
         AnimationLogic();
     }
     private enum State
@@ -42,12 +42,13 @@ public class V1PlayerControllerScript : MonoBehaviour
         idle,
         walking,
         run,
-        aimWalk
+        reverseWalk
     }
     void ScaleLogic()
     {
+        //Make the player always face the mouse
         Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if(worldPosMouse.x < transform.position.x)
+        if (worldPosMouse.x < transform.position.x)
         {
             mouseDirection = -1;
         }
@@ -59,9 +60,9 @@ public class V1PlayerControllerScript : MonoBehaviour
     }
     void AnimationLogic()
     {
-        if (isAiming && currentMoveSpeed > 0.1f)
+        if(mouseDirection != moveDirection && currentMoveSpeed > 0.1f)
         {
-            currentState = State.aimWalk;
+            currentState = State.reverseWalk;
         }
         else if (currentMoveSpeed < walkAnimationLimit && currentMoveSpeed > 0.1f)
         {
@@ -77,18 +78,7 @@ public class V1PlayerControllerScript : MonoBehaviour
         }
         anim.SetInteger("State", (int)currentState);
     }
-    void ShootingLogic()
-    {
-        //Change states based on input
-        if (Input.GetMouseButton(1))
-        {
-            isAiming = true;
-        }
-        else
-        {
-            isAiming = false;
-        }
-    }
+
     private void HorizontalMovement()
     {
         Running();
@@ -96,50 +86,31 @@ public class V1PlayerControllerScript : MonoBehaviour
     }
     void Running()
     {
-       //With Acceleration
+        //With Acceleration
         if (Input.GetKey(KeyCode.A))
         {
             moveDirection = -1;
-            
-            if (rb.velocity.x > -initialMoveSpeed+0.1f)
-            {
-                currentMoveSpeed = initialMoveSpeed;
-            }
-            if (currentMoveSpeed < maxMoveSpeed)
-            {
-                currentMoveSpeed += accelerationSpeed * Time.deltaTime;
-            }
-            else
-            {
-                currentMoveSpeed = maxMoveSpeed;
-            }
 
-            if (isAiming)
-            {
-                currentMoveSpeed = aimWalkSpeed;
-            }
+            if (rb.velocity.x > -initialMoveSpeed + 0.1f)
+                currentMoveSpeed = initialMoveSpeed;
+
+            if(moveDirection != mouseDirection)
+                currentMoveSpeed = reverseMoveSpeed;
+            else
+                Accelerate();
+
 
         }
         else if (Input.GetKey(KeyCode.D))
         {
             moveDirection = 1;
 
-            if (rb.velocity.x < initialMoveSpeed-0.1f)
-            {
+            if (rb.velocity.x < initialMoveSpeed - 0.1f)
                 currentMoveSpeed = initialMoveSpeed;
-            }
-            if (currentMoveSpeed < maxMoveSpeed)
-            {
-                currentMoveSpeed += accelerationSpeed * Time.deltaTime;
-            }
+            if (moveDirection != mouseDirection)
+                currentMoveSpeed = reverseMoveSpeed;
             else
-            {
-                currentMoveSpeed = maxMoveSpeed;
-            }
-            if (isAiming)
-            {
-                currentMoveSpeed = aimWalkSpeed;
-            }
+                Accelerate();
         }
         else
         {
@@ -147,6 +118,17 @@ public class V1PlayerControllerScript : MonoBehaviour
             currentMoveSpeed = 0;
         }
     }
-
+    void Accelerate()
+    {
+        //Accelerate the CurrentMoveSpeed variable
+        if (currentMoveSpeed < maxMoveSpeed)
+        {
+            currentMoveSpeed += accelerationSpeed * Time.deltaTime;
+        }
+        else
+        {
+            currentMoveSpeed = maxMoveSpeed;
+        }
+    }
 
 }
