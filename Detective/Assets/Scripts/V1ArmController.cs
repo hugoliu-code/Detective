@@ -13,11 +13,13 @@ public class V1ArmController : MonoBehaviour
     private V1GameManager gm;
     private Animator anim;
     private Camera cam;
+    private SpriteRenderer sr;
     private void Start()
     {
         cam = Camera.main;
         anim = GetComponent<Animator>();
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
+        sr = GetComponent<SpriteRenderer>();
     }
     void Update()
     {
@@ -32,6 +34,12 @@ public class V1ArmController : MonoBehaviour
         Vector3 worldPosMouse = cam.ScreenToWorldPoint(Input.mousePosition);
         angle = 180*(1/Mathf.PI) * Mathf.Atan2(worldPosMouse.y - shoulderIndicator.position.y, worldPosMouse.x - shoulderIndicator.position.x);
         anim.SetFloat("Angle", angle);
+
+        
+        worldPosMouse.z = 0; //for the purpose of calculating distance properly
+        float distance = Vector3.Distance(worldPosMouse, this.transform.position);
+        anim.SetFloat("Distance", distance);
+       
     }
     void MoveShoulder()
     {
@@ -39,10 +47,12 @@ public class V1ArmController : MonoBehaviour
         if (gm.player.transform.localScale.x == 1)
         {
             transform.position = shoulderIndicator.transform.position;
+            sr.sortingLayerName = "Shoulder";
         }
         else if(gm.player.transform.localScale.x == -1)
         {
             transform.position = backShoulderIndicator.transform.position;
+            sr.sortingLayerName = "BackShoulder";
         }
     }
 

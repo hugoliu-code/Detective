@@ -45,6 +45,9 @@ TagManager:
   - name: Background
     uniqueID: 4270940381
     locked: 0
+  - name: BackShoulder
+    uniqueID: 546958805
+    locked: 0
   - name: Player
     uniqueID: 908930951
     locked: 0
