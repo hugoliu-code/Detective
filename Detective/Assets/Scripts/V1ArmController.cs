@@ -37,7 +37,7 @@ public class V1ArmController : MonoBehaviour
 
         
         worldPosMouse.z = 0; //for the purpose of calculating distance properly
-        float distance = Vector3.Distance(worldPosMouse, this.transform.position);
+        float distance = Vector3.Distance(worldPosMouse, gm.player.transform.position);
         anim.SetFloat("Distance", distance);
        
     }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class V1ShootingScript: MonoBehaviour
 {
-    private LayerMask shootLayers;
-    public LayerMask enemy;
-    public LayerMask floor;
+
+    public LayerMask shootLayers;
+
     private V1GameManager gm;
 
 
@@ -20,15 +20,16 @@ public class V1ShootingScript: MonoBehaviour
     [SerializeField] Transform gunTipIndicator;
     [Header("Variables")]
     [SerializeField] float normalSpread;
+    [SerializeField] float aimSpeed;
     [SerializeField] float aimSpread;
     [SerializeField] float shootDelay;
-    private float currentSpread;
+    [SerializeField] float currentShootDelay;
+    [SerializeField] float currentSpread;
     private float lastShotTime = 0;
 
     void Start()
     {
         //Layers the bullet raycast will hit
-        shootLayers = enemy | floor;
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
     }
 
@@ -36,15 +37,38 @@ public class V1ShootingScript: MonoBehaviour
     void Update()
     {
         SpreadUpdate();
+        ShootDelayUpdate();
+    }
+
+    private void FixedUpdate()
+    {
         Shoot();
+    }
+    void ShootDelayUpdate()
+    {
+        if(Time.timeScale < 1f)
+        {
+            currentShootDelay = shootDelay *Time.timeScale;
+        }
+        else
+        {
+            currentShootDelay = shootDelay;
+        }
     }
     void SpreadUpdate()
     {
         //Update Spread according to various variables
-        if (gm.player.isAiming)
-            currentSpread = aimSpread;
+        if (Input.GetMouseButton(1))
+        {
+            if(currentSpread > aimSpread)
+            {
+                currentSpread -= aimSpeed * Time.deltaTime;
+            }
+        }
         else
+        {
             currentSpread = normalSpread;
+        }
     }
     void Shoot()
     {
@@ -59,7 +83,7 @@ public class V1ShootingScript: MonoBehaviour
             worldPosMouse.z = 0;
 
             //IF not enough time has passed, return
-            if(Time.time < lastShotTime + shootDelay)
+            if(Time.time < lastShotTime + currentShootDelay)
             {
                 return;
             }
@@ -75,11 +99,18 @@ public class V1ShootingScript: MonoBehaviour
             if (hit && hit.collider.gameObject.CompareTag("Enemy")) //When raycast hits an enemy
                 Destroy(hit.collider.gameObject);
 
+            //Reset Aim
+            currentSpread = normalSpread;
 
             //Tracers
+            float hitDistance = 15f;
+            if (hit)
+            {
+                hitDistance = Vector2.Distance(hit.point, gunTipIndicator.position); 
+            }
             StartCoroutine(Tracer(gunTipIndicator.position,
                 180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouseWithSpread.y - gunTipIndicator.position.y, worldPosMouseWithSpread.x - gunTipIndicator.position.x),
-            15f));
+            hitDistance));
 
             //Screenshake
             gm.screenShake.SmallShake();

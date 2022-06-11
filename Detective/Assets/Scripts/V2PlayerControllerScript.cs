@@ -14,12 +14,21 @@ public class V2PlayerControllerScript : MonoBehaviour
     [SerializeField] float currentMoveSpeed = 3;
     [SerializeField] float accelerationSpeed = 2;
     [SerializeField] float reverseMoveSpeed = 4;
+    [SerializeField] float minMouseDistance = 1f;
     public int moveDirection = -1; //Movement of Playerbody
     public int mouseDirection = -1; //Position of mouse relative to player
     [SerializeField] float walkAnimationLimit = 4;
     [SerializeField] float aimWalkSpeed;
+    [Header("Jumping")]
+    [SerializeField] Vector2 bottomOffset;
+    [SerializeField] float collisionRadius;
+    [SerializeField] LayerMask groundLayer;
+    [SerializeField] float jumpSpeed;
+    [SerializeField] float lowJumpMultiplier;
+    private bool jumpBool = false;
     [Header("Conditions")]
     public bool isAiming;
+    public bool onGround;
     //[SerializeField] bool isFacingRight;
 
 
@@ -31,10 +40,15 @@ public class V2PlayerControllerScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
         ScaleLogic(); //Changing the LocalScale accordingly based on mouse position
         HorizontalMovement();
+        VerticalMovement();
+        CheckGround();
+    }
+    void Update()
+    {
         AnimationLogic();
     }
     private enum State
@@ -42,7 +56,12 @@ public class V2PlayerControllerScript : MonoBehaviour
         idle,
         walking,
         run,
-        reverseWalk
+        reverseWalk,
+        jump
+    }
+    void CheckGround()
+    {
+        onGround = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, collisionRadius, groundLayer);
     }
     void ScaleLogic()
     {
@@ -60,7 +79,12 @@ public class V2PlayerControllerScript : MonoBehaviour
     }
     void AnimationLogic()
     {
-        if(mouseDirection != moveDirection && currentMoveSpeed > 0.1f)
+        anim.SetFloat("Yvelocity", rb.velocity.y);
+        if(Mathf.Abs(rb.velocity.y) > 0.1f && !onGround)
+        {
+            currentState = State.jump;
+        }
+        else if(mouseDirection != moveDirection && currentMoveSpeed > 0.1f)
         {
             currentState = State.reverseWalk;
         }
@@ -91,13 +115,18 @@ public class V2PlayerControllerScript : MonoBehaviour
         {
             moveDirection = -1;
 
-            if (rb.velocity.x > -initialMoveSpeed + 0.1f)
+            if (rb.velocity.x > -1*initialMoveSpeed + 0.1f) {
                 currentMoveSpeed = initialMoveSpeed;
-
-            if(moveDirection != mouseDirection)
+   
+            }
+            if (moveDirection != mouseDirection)
+            {
                 currentMoveSpeed = reverseMoveSpeed;
+            }
             else
+            { 
                 Accelerate();
+            }
 
 
         }
@@ -106,7 +135,9 @@ public class V2PlayerControllerScript : MonoBehaviour
             moveDirection = 1;
 
             if (rb.velocity.x < initialMoveSpeed - 0.1f)
+            {
                 currentMoveSpeed = initialMoveSpeed;
+            }
             if (moveDirection != mouseDirection)
                 currentMoveSpeed = reverseMoveSpeed;
             else
@@ -129,6 +160,33 @@ public class V2PlayerControllerScript : MonoBehaviour
         {
             currentMoveSpeed = maxMoveSpeed;
         }
+    }
+    private void VerticalMovement()
+    {
+        if (Input.GetKeyDown(KeyCode.W)&&onGround)
+        {
+            jumpBool = true;
+        }
+        if (onGround && jumpBool)
+        {
+            jumpBool = false;
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
+        }
+        else if (rb.velocity.y > 0 && !Input.GetKey(KeyCode.UpArrow))
+        {
+            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
+        }
+    }
+
+
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, 0.3f);
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
     }
 
 }
