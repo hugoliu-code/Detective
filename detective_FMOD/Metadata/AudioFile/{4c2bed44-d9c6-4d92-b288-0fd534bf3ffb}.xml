@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{4c2bed44-d9c6-4d92-b288-0fd534bf3ffb}">
+		<property name="assetPath">
+			<value>deagle.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>3.3359999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b3fa0316-e387-4611-bef2-5ef99a58b310}</destination>
+		</relationship>
+	</object>
+</objects>
