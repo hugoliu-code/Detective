@@ -2,7 +2,7 @@
 <objects serializationModel="Studio.02.02.00">
 	<object class="AudioFile" id="{b307bfb2-63ab-44fa-92fb-61f6fe9abdf2}">
 		<property name="assetPath">
-			<value>Cymatics - Odyssey Future Bass Drop Loop 7 - 150 BPM F Min.wav</value>
+			<value>OST/Cymatics - Odyssey Future Bass Drop Loop 7 - 150 BPM F Min.wav</value>
 		</property>
 		<property name="isStreaming">
 			<value>true</value>
