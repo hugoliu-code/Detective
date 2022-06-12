@@ -155,10 +155,10 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 1915568871
-      Data2: 1244815317
-      Data3: -1652367708
-      Data4: 46231259
+      Data1: 841689670
+      Data2: 1074761931
+      Data3: 953715902
+      Data4: -626775403
     Path: event:/OST/dread
   Event: 
   PlayEvent: 0
