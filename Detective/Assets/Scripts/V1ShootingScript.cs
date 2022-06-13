@@ -16,6 +16,10 @@ public class V1ShootingScript: MonoBehaviour
     [SerializeField] float thickness;
     [SerializeField] GameObject secondShot;
     [SerializeField] float secondTracerTime;
+    [Header("AimTracers")]
+    [SerializeField] GameObject aimTracer;
+    private GameObject topAimTracer;
+    private GameObject bottomAimTracer;
     [Header("Indicators")]
     [SerializeField] Transform gunTipIndicator;
     [Header("Variables")]
@@ -25,12 +29,16 @@ public class V1ShootingScript: MonoBehaviour
     [SerializeField] float shootDelay;
     [SerializeField] float currentShootDelay;
     [SerializeField] float currentSpread;
+    [SerializeField] float slowMoAimMultiplier; //In slow-mo, how much faster/slower does the player aim;
     private float lastShotTime = 0;
 
     void Start()
     {
         //Layers the bullet raycast will hit
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
+        //TEMPORARY, probably wont be final system
+        topAimTracer = Instantiate(mainShot);
+        bottomAimTracer = Instantiate(mainShot);
     }
 
 
@@ -43,6 +51,16 @@ public class V1ShootingScript: MonoBehaviour
     private void FixedUpdate()
     {
         Shoot();
+        AimTracersUpdate();
+    }
+    void AimTracersUpdate()
+    {
+        Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        worldPosMouse.z = 0;
+        topAimTracer.transform.position = gunTipIndicator.transform.position;
+        topAimTracer.transform.rotation = Quaternion.Euler(0, 0, 180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouse.y - gunTipIndicator.position.y, worldPosMouse.x - gunTipIndicator.position.x) + currentSpread/2);
+        bottomAimTracer.transform.position = gunTipIndicator.transform.position;
+        bottomAimTracer.transform.rotation = Quaternion.Euler(0, 0, 180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouse.y - gunTipIndicator.position.y, worldPosMouse.x - gunTipIndicator.position.x) - currentSpread/2);
     }
     void ShootDelayUpdate()
     {
@@ -60,9 +78,20 @@ public class V1ShootingScript: MonoBehaviour
         //Update Spread according to various variables
         if (Input.GetMouseButton(1))
         {
-            if(currentSpread > aimSpread)
+            if (currentSpread > aimSpread)
             {
-                currentSpread -= aimSpeed * Time.deltaTime;
+                if (Time.timeScale < 1f)
+                {
+                    currentSpread -= aimSpeed * Time.deltaTime * (1 / Time.timeScale) * slowMoAimMultiplier;
+                }
+                else 
+                {
+                    currentSpread -= aimSpeed * Time.deltaTime;
+                }
+            }
+            else
+            {
+                currentSpread = aimSpread;
             }
         }
         else
