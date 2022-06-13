@@ -31,6 +31,10 @@ public class V2PlayerControllerScript : MonoBehaviour
     public bool onGround;
     //[SerializeField] bool isFacingRight;
 
+    #region Audio
+    private string Material;
+    private float distance = 2.15f;
+    #endregion
 
 
     void Start()
@@ -46,11 +50,16 @@ public class V2PlayerControllerScript : MonoBehaviour
         HorizontalMovement();
         VerticalMovement();
         CheckGround();
+
+        MaterialCheck();
+        Debug.DrawRay(transform.position, Vector2.down * distance, Color.blue);
     }
+
     void Update()
     {
         AnimationLogic();
     }
+
     private enum State
     {
         idle,
@@ -59,10 +68,12 @@ public class V2PlayerControllerScript : MonoBehaviour
         reverseWalk,
         jump
     }
+
     void CheckGround()
     {
         onGround = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset, collisionRadius, groundLayer);
     }
+
     void ScaleLogic()
     {
         //Make the player always face the mouse
@@ -77,6 +88,7 @@ public class V2PlayerControllerScript : MonoBehaviour
         }
         transform.localScale = new Vector3(mouseDirection, 1, 1);
     }
+
     void AnimationLogic()
     {
         anim.SetFloat("Yvelocity", rb.velocity.y);
@@ -108,6 +120,7 @@ public class V2PlayerControllerScript : MonoBehaviour
         Running();
         rb.velocity = new Vector2(moveDirection * currentMoveSpeed, rb.velocity.y);
     }
+
     void Running()
     {
         //With Acceleration
@@ -161,6 +174,7 @@ public class V2PlayerControllerScript : MonoBehaviour
             currentMoveSpeed = maxMoveSpeed;
         }
     }
+
     private void VerticalMovement()
     {
         if (Input.GetKeyDown(KeyCode.W)&&onGround)
@@ -178,9 +192,6 @@ public class V2PlayerControllerScript : MonoBehaviour
         }
     }
 
-
-
-
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, 0.3f);
@@ -189,4 +200,27 @@ public class V2PlayerControllerScript : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
     }
 
+    void MaterialCheck()
+    {
+        RaycastHit2D hit;
+        
+        //the 1 << 6 is targetting the Ground Layer (6) only
+        hit = Physics2D.Raycast(transform.position, Vector2.down, distance, 1 << 6);
+
+        if (hit.collider)
+        {
+            if (hit.collider.tag == "Material: Carpet")
+                Material = "Carpet";
+            else
+                Material = "Concrete";
+        }
+    }
+
+    void PlayFootstepsEvent(string path)
+    {
+        FMOD.Studio.EventInstance Footsteps = FMODUnity.RuntimeManager.CreateInstance(path);
+        Footsteps.setParameterByNameWithLabel("Material", Material);
+        Footsteps.start();
+        Footsteps.release();
+    }
 }

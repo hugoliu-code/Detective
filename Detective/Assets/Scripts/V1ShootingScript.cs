@@ -88,6 +88,9 @@ public class V1ShootingScript: MonoBehaviour
                 return;
             }
 
+            //Gunshot Sound
+            FMODUnity.RuntimeManager.PlayOneShot("event:/Characters/Player/Pistol", GetComponent<Transform>().position);
+
             //Creating New endpoint with spread
             float spread = Random.Range(-currentSpread / 2, currentSpread / 2);
             Vector3 worldPosMouseWithSpread = worldPosMouse - gunTipIndicator.position; //the relative vector from P2 to P1.
