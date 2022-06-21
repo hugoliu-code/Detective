@@ -341,11 +341,11 @@ MonoBehaviour:
   CollisionTag: 
   EventReference:
     Guid:
-      Data1: 841689670
-      Data2: 1074761931
-      Data3: 953715902
-      Data4: -626775403
-    Path: event:/OST/dread
+      Data1: -141579443
+      Data2: 1076735304
+      Data3: -1315663951
+      Data4: -2023213656
+    Path: event:/OST/ambi
   Event: 
   PlayEvent: 1
   StopEvent: 0
