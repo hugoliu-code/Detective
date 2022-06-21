@@ -48,7 +48,7 @@ public class V2PlayerControllerScript : MonoBehaviour
     {
         ScaleLogic(); //Changing the LocalScale accordingly based on mouse position
         HorizontalMovement();
-        VerticalMovement();
+
         CheckGround();
 
         MaterialCheck();
@@ -57,7 +57,9 @@ public class V2PlayerControllerScript : MonoBehaviour
 
     void Update()
     {
+        VerticalMovement();
         AnimationLogic();
+
     }
 
     private enum State
