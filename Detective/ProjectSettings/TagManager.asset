@@ -7,6 +7,7 @@ TagManager:
   - GM
   - Enemy
   - 'Material: Carpet'
+  - UIManager
   layers:
   - Default
   - TransparentFX
@@ -47,6 +48,18 @@ TagManager:
   - name: Background
     uniqueID: 4270940381
     locked: 0
+  - name: Background-Detail1
+    uniqueID: 3139185757
+    locked: 0
+  - name: Background-Detail2
+    uniqueID: 3946925841
+    locked: 0
+  - name: Background-Detail3
+    uniqueID: 30722495
+    locked: 0
+  - name: Background-Detail4
+    uniqueID: 1302623635
+    locked: 0
   - name: BackShoulder
     uniqueID: 546958805
     locked: 0
@@ -58,4 +71,7 @@ TagManager:
     locked: 0
   - name: Objects
     uniqueID: 2747698711
+    locked: 0
+  - name: Background-Border
+    uniqueID: 3166470403
     locked: 0

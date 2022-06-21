@@ -93,7 +93,7 @@ AnimationClip:
         value: -1.281
         inSlope: 0
         outSlope: 0
-        tangentMode: 136
+        tangentMode: 1
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -112,7 +112,7 @@ AnimationClip:
         value: 0.2
         inSlope: 0
         outSlope: 0
-        tangentMode: 136
+        tangentMode: 1
         weightedMode: 0
         inWeight: 0
         outWeight: 0
@@ -131,7 +131,7 @@ AnimationClip:
         value: 0
         inSlope: 0
         outSlope: 0
-        tangentMode: 136
+        tangentMode: 1
         weightedMode: 0
         inWeight: 0
         outWeight: 0

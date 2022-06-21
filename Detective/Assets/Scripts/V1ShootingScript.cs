@@ -30,6 +30,8 @@ public class V1ShootingScript: MonoBehaviour
     [SerializeField] float currentShootDelay;
     [SerializeField] float currentSpread;
     [SerializeField] float slowMoAimMultiplier; //In slow-mo, how much faster/slower does the player aim;
+    [SerializeField] float minimumAimingDistance = 0; //How far must the mouse be for a shot to be fired?
+    private bool canShoot = false;
     private float lastShotTime = 0;
 
     void Start()
@@ -37,8 +39,8 @@ public class V1ShootingScript: MonoBehaviour
         //Layers the bullet raycast will hit
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
         //TEMPORARY, probably wont be final system
-        topAimTracer = Instantiate(mainShot);
-        bottomAimTracer = Instantiate(mainShot);
+        topAimTracer = Instantiate(mainShot, gunTipIndicator);
+        bottomAimTracer = Instantiate(mainShot, gunTipIndicator);
     }
 
 
@@ -46,6 +48,8 @@ public class V1ShootingScript: MonoBehaviour
     {
         SpreadUpdate();
         ShootDelayUpdate();
+        CheckDistance();
+        
     }
 
     private void FixedUpdate()
@@ -53,13 +57,36 @@ public class V1ShootingScript: MonoBehaviour
         Shoot();
         AimTracersUpdate();
     }
-    void AimTracersUpdate()
+    private void CheckDistance() 
     {
         Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         worldPosMouse.z = 0;
-        topAimTracer.transform.position = gunTipIndicator.transform.position;
+        if (Vector3.Distance(worldPosMouse, gm.player.transform.position)> minimumAimingDistance)
+        {
+            canShoot = true;
+        }
+        else
+        {
+            canShoot = false;
+        }
+    }
+    void AimTracersUpdate()
+    {
+        if (canShoot)
+        {
+            topAimTracer.SetActive(true);
+            bottomAimTracer.SetActive(true);
+        }
+        else
+        {
+            topAimTracer.SetActive(false);
+            bottomAimTracer.SetActive(false);
+        }
+        Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        worldPosMouse.z = 0;
+
         topAimTracer.transform.rotation = Quaternion.Euler(0, 0, 180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouse.y - gunTipIndicator.position.y, worldPosMouse.x - gunTipIndicator.position.x) + currentSpread/2);
-        bottomAimTracer.transform.position = gunTipIndicator.transform.position;
+
         bottomAimTracer.transform.rotation = Quaternion.Euler(0, 0, 180 * (1 / Mathf.PI) * Mathf.Atan2(worldPosMouse.y - gunTipIndicator.position.y, worldPosMouse.x - gunTipIndicator.position.x) - currentSpread/2);
     }
     void ShootDelayUpdate()
@@ -106,7 +133,7 @@ public class V1ShootingScript: MonoBehaviour
          * Then Draw a raycast to simulate shooting
          * Then Call coroutine to draw the tracer
          */
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && canShoot)
         {
             Vector3 worldPosMouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             worldPosMouse.z = 0;

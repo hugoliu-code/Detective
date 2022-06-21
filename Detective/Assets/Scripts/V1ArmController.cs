@@ -9,6 +9,7 @@ public class V1ArmController : MonoBehaviour
     [SerializeField] Transform backShoulderIndicator;
     //Used to visualize the angle in the editor
     [SerializeField] float angle;
+    [SerializeField] float distance;
 
     private V1GameManager gm;
     private Animator anim;
@@ -21,10 +22,13 @@ public class V1ArmController : MonoBehaviour
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<V1GameManager>();
         sr = GetComponent<SpriteRenderer>();
     }
+    private void FixedUpdate()
+    {
+        RotateArm();
+    }
     void Update()
     {
         MoveShoulder();
-        RotateArm();
     }
 
     void RotateArm()
@@ -37,7 +41,7 @@ public class V1ArmController : MonoBehaviour
 
         
         worldPosMouse.z = 0; //for the purpose of calculating distance properly
-        float distance = Vector3.Distance(worldPosMouse, gm.player.transform.position);
+        distance = Vector3.Distance(worldPosMouse, gm.player.transform.position);
         anim.SetFloat("Distance", distance);
        
     }
