@@ -42,11 +42,11 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Default
-    uniqueID: 0
-    locked: 0
   - name: Background
     uniqueID: 4270940381
+    locked: 0
+  - name: Background-Detail0
+    uniqueID: 3652743125
     locked: 0
   - name: Background-Detail1
     uniqueID: 3139185757
@@ -60,6 +60,12 @@ TagManager:
   - name: Background-Detail4
     uniqueID: 1302623635
     locked: 0
+  - name: Background-Detail5
+    uniqueID: 1750557927
+    locked: 0
+  - name: Background-Detail6
+    uniqueID: 2679887591
+    locked: 0
   - name: BackShoulder
     uniqueID: 546958805
     locked: 0
@@ -72,6 +78,12 @@ TagManager:
   - name: Objects
     uniqueID: 2747698711
     locked: 0
-  - name: Background-Border
+  - name: Foreground-Detail
+    uniqueID: 470726667
+    locked: 0
+  - name: Foreground-Border
     uniqueID: 3166470403
+    locked: 0
+  - name: Default
+    uniqueID: 0
     locked: 0

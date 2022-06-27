@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8080307416831139360}
   - component: {fileID: 7270056436200898861}
   m_Layer: 31
-  m_Name: SewerBorders
+  m_Name: TestSewerBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
