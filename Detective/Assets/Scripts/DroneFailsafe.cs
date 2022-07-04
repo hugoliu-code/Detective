@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static Unity.Mathematics.math;
 
 public class DroneFailsafe : MonoBehaviour
 {
@@ -15,17 +14,10 @@ public class DroneFailsafe : MonoBehaviour
         play = GameObject.Find("PlayerBody");
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        Transform destTransform = dest.transform;
-        Vector2 position = destTransform.position;
-        //Debug.Log(Vector2.Distance(position, transform.position));
-        if (Vector2.Distance(position, transform.position) > 15.0)
-        {
-            transform.position  = position;
-        }
-
         if (play.transform.localScale[0] == 1f)
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
@@ -33,6 +25,20 @@ public class DroneFailsafe : MonoBehaviour
         else if (play.transform.localScale[0] == -1f)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+
+        Failsafe();
+    }
+
+    void Failsafe()
+    {
+        //checks the distance betwee the drone and destination
+        Transform destTransform = dest.transform;
+        Vector2 position = destTransform.position;
+        //Debug.Log(Vector2.Distance(position, transform.position));
+        if (Vector2.Distance(position, transform.position) > 15.0)
+        {
+            transform.position = position;
         }
     }
 }
