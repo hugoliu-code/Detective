@@ -72,8 +72,8 @@ TagManager:
   - name: Player
     uniqueID: 908930951
     locked: 0
-  - name: Shoulder
-    uniqueID: 2425207977
+  - name: Particles
+    uniqueID: 2127210351
     locked: 0
   - name: Objects
     uniqueID: 2747698711
