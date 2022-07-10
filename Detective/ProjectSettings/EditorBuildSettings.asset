@@ -8,7 +8,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Testing/PlayerAnimTest.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Testing/DemoLevel.unity
     guid: bfe9f1879f25b1442a0f503a1a8aabda
+  - enabled: 1
+    path: Assets/Scenes/Testing/ArtTest.unity
+    guid: b39b9134e53dce04eaba42cbb532e32e
   m_configObjects: {}
