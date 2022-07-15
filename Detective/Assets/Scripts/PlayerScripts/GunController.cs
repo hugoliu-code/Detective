@@ -9,6 +9,10 @@ public class GunController : MonoBehaviour
     [SerializeField] float bulletSpeed;
     [SerializeField] float fireRate; //delay between shots
     [SerializeField] float bulletSpread;
+    [SerializeField] int maxAmmo = 10;
+    [SerializeField] float reloadTime; //how long it takes to reload
+    private int currentAmmo;
+    private float nextAvailableReloadTime = 0;
     private float nextAvailableFireTime = 0;
     [Space(2)]
     [Header("Object References")]
@@ -16,9 +20,14 @@ public class GunController : MonoBehaviour
     [SerializeField] Transform gunTipIndicator;
 
     #endregion
+    private void Start()
+    {
+        currentAmmo = maxAmmo;
+    }
     private void Update()
     {
         ShootingController();
+        ReloadController();
     }
     void ShootingController()
     {
@@ -30,7 +39,7 @@ public class GunController : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             //IF not enough time has passed, return
-            if (Time.time < nextAvailableFireTime)
+            if (Time.time < nextAvailableFireTime || currentAmmo <= 0)
             {
                 return;
             }
@@ -48,9 +57,10 @@ public class GunController : MonoBehaviour
             worldPosMouseWithSpread = gunTipIndicator.position + worldPosMouseWithSpread; //bring back to world space
 
 
+            //Update ammo
+            currentAmmo -= 1;
             //Generating the Bullet
-            GameObject bullet = Instantiate(normalBullet);
-            bullet.transform.position = gunTipIndicator.position;
+            GameObject bullet = Instantiate(normalBullet, gunTipIndicator.position, Quaternion.Euler(0,0,0));
             bullet.GetComponent<Rigidbody2D>().velocity = (worldPosMouseWithSpread - gunTipIndicator.position).normalized * bulletSpeed;
            
 
@@ -61,5 +71,11 @@ public class GunController : MonoBehaviour
             nextAvailableFireTime = Time.time+fireRate;
         }
     }
-
+    void ReloadController()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            currentAmmo = maxAmmo;
+        }
+    }
 }
