@@ -172,7 +172,7 @@ public class V1ShootingScript: MonoBehaviour
             hitDistance));
 
             //Screenshake
-            gm.screenShake.SmallShake();
+            //gm.screenShake.SmallShake();
 
             //New Last Shot Time
             lastShotTime = Time.time;
