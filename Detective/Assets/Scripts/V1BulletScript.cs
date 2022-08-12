@@ -5,16 +5,29 @@ using UnityEngine;
 public class V1BulletScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    private void OnTriggerEnter2D(Collider2D collision)
+    [SerializeField] LayerMask collidables; //objects, ground, enemies
+    private Vector3 previousPosition; //position of the object the frame before
+    private void Start()
     {
-        Debug.Log("Bruh");
-        if (collision.gameObject.layer.Equals(LayerMask.NameToLayer("Ground")))
+        previousPosition = transform.position;
+    }
+    private void Update()
+    {
+        RaycastHit2D collisionCheck = Physics2D.Raycast(previousPosition, transform.position-previousPosition, Vector2.Distance(previousPosition, transform.position), collidables);
+        if (collisionCheck)
         {
-            Destroy(this);
+            HandleCollision(collisionCheck);
         }
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("Player Shot");
-        }
+        previousPosition = transform.position;
+    }
+
+    void HandleCollision(RaycastHit2D collision)
+    {
+        transform.position = collision.point;
+        Invoke("CustomDestroy",0.01f);
+    }
+    void CustomDestroy()
+    {
+        Destroy(this.gameObject);
     }
 }
